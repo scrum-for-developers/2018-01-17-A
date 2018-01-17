@@ -1,9 +1,10 @@
 package de.codecentric.psd.worblehat.web.controller;
 
-import de.codecentric.psd.worblehat.domain.Book;
-import de.codecentric.psd.worblehat.domain.BookAlreadyBorrowedException;
-import de.codecentric.psd.worblehat.domain.BookService;
-import de.codecentric.psd.worblehat.web.formdata.BookBorrowFormData;
+import java.util.logging.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,8 +15,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
+import de.codecentric.psd.worblehat.domain.Book;
+import de.codecentric.psd.worblehat.domain.BookAlreadyBorrowedException;
+import de.codecentric.psd.worblehat.domain.BookService;
+import de.codecentric.psd.worblehat.web.formdata.BookBorrowFormData;
 
 /**
  * Controller for BorrowingBook
@@ -23,6 +26,8 @@ import javax.validation.Valid;
 @RequestMapping("/borrow")
 @Controller
 public class BorrowBookController {
+
+    private Logger log = Logger.getLogger("BorrowBookControllerLogger");
 
 	private BookService bookService;
 
@@ -51,7 +56,8 @@ public class BorrowBookController {
 		try {
 			bookService.borrowBook(book, borrowFormData.getEmail());
 		} catch (BookAlreadyBorrowedException e) {
-			result.rejectValue("isbn", "internalError");
+            log.severe("The book is already borrowed: " + e.getMessage());
+            result.rejectValue("isbn", "internalError");
 			return "borrow";
 		}
 		return "home";

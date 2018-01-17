@@ -1,10 +1,17 @@
 package de.codecentric.psd.worblehat.domain;
 
-import org.joda.time.DateTime;
-
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.joda.time.DateTime;
 
 /**
  * Borrowing Entity
@@ -12,41 +19,38 @@ import java.util.Date;
 @Entity
 public class Borrowing implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id; // NOSONAR
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id; // NOSONAR
 
-	private String borrowerEmailAddress;
+    private String borrowerEmailAddress;
 
-	@Temporal(TemporalType.DATE)
-	private Date borrowDate;
+    @Temporal(TemporalType.DATE)
+    private Date borrowDate;
 
-	@OneToOne()
-	private Book borrowedBook;
+    private Borrowing() {
+        // for JPA
+    }
 
-	public String getBorrowerEmailAddress() {
-		return borrowerEmailAddress;
-	}
+    @OneToOne()
+    private Book borrowedBook;
 
-	/**
-	 * @param book
-	 * The borrowed book
-	 * @param borrowerEmailAddress
-	 * The borrowers e-mail Address
-	 * @param borrowDate
-	 * The borrow date
+    public String getBorrowerEmailAddress() {
+        return borrowerEmailAddress;
+    }
+
+    /**
+     * @param book                 The borrowed book
+     * @param borrowerEmailAddress The borrowers e-mail Address
+     * @param borrowDate           The borrow date
      */
-	public Borrowing(Book book, String borrowerEmailAddress, DateTime borrowDate) {
-		super();
-		this.borrowedBook = book;
-		this.borrowerEmailAddress = borrowerEmailAddress;
-		this.borrowDate = borrowDate.toDate();
-	}
-
-	private Borrowing() {
-		// for JPA
-	}
+    public Borrowing(Book book, String borrowerEmailAddress, DateTime borrowDate) {
+        super();
+        this.borrowedBook = book;
+        this.borrowerEmailAddress = borrowerEmailAddress;
+        this.borrowDate = borrowDate.toDate();
+    }
 
 }

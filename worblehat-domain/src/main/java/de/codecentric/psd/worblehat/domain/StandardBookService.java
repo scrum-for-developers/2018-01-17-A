@@ -1,12 +1,11 @@
 package de.codecentric.psd.worblehat.domain;
 
+import java.util.List;
+
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Date;
-import java.util.List;
 
 /**
  * The domain service class for book operations.
@@ -14,9 +13,6 @@ import java.util.List;
 @Service
 @Transactional
 public class StandardBookService implements BookService {
-    public StandardBookService(){
-
-    }
 
     @Autowired
     public StandardBookService(BorrowingRepository borrowingRepository, BookRepository bookRepository) {
@@ -43,8 +39,8 @@ public class StandardBookService implements BookService {
         if (borrowing != null) {
             throw new BookAlreadyBorrowedException("Book is already borrowed");
         } else {
-            book =findBookByIsbn(book.getIsbn());
-            borrowing = new Borrowing(book, borrowerEmail, new DateTime());
+            Book bookFromDatabase = findBookByIsbn(book.getIsbn());
+            borrowing = new Borrowing(bookFromDatabase, borrowerEmail, new DateTime());
             borrowingRepository.save(borrowing);
         }
     }
@@ -58,7 +54,6 @@ public class StandardBookService implements BookService {
     public List<Book> findAllBooks() {
         return bookRepository.findAllBooks();
     }
-
 
     @Override
     public Book createBook(String title, String author, String edition, String isbn, int yearOfPublication) {
