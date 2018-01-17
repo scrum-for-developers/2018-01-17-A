@@ -30,16 +30,8 @@ public class Borrowing implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date borrowDate;
 
-	private Borrowing() {
-		// for JPA
-	}
-
 	@OneToOne()
 	private Book borrowedBook;
-
-	public String getBorrowerEmailAddress() {
-		return borrowerEmailAddress;
-	}
 
 	/**
 	 * @param book                 The borrowed book
@@ -53,4 +45,36 @@ public class Borrowing implements Serializable {
 		this.borrowDate = borrowDate.toDate();
 	}
 
+	private Borrowing() {
+		// for JPA
+	}
+
+	public String getBorrowerEmailAddress() {
+		return borrowerEmailAddress;
+	}
+
+
+	public long getId() {
+		return id;
+	}
+
+	public void setBorrowerEmailAddress(String borrowerEmailAddress) {
+		this.borrowerEmailAddress = borrowerEmailAddress;
+	}
+
+	public Date getBorrowDate() {
+		return borrowDate;
+	}
+
+	public void setBorrowDate(Date borrowDate) {
+		this.borrowDate = borrowDate;
+	}
+
+	public Book getBorrowedBook() {
+		return borrowedBook;
+	}
+
+	public void setBorrowedBook(Book borrowedBook) {
+		this.borrowedBook = borrowedBook;
+	}
 }

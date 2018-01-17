@@ -1,5 +1,6 @@
 package de.codecentric.psd.worblehat.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -13,6 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class StandardBookService implements BookService {
+	public StandardBookService() {
+
+	}
 
 	@Autowired
 	public StandardBookService(BorrowingRepository borrowingRepository, BookRepository bookRepository) {
@@ -34,13 +38,26 @@ public class StandardBookService implements BookService {
 	}
 
 	@Override
+	public List<Book> getAllBooksByBorrower(String borrowerEmail) {
+		List<Borrowing> borrowingsByUser = borrowingRepository
+				.findBorrowingsByBorrower(borrowerEmail);
+
+		List<Book> borrowedBooks = new ArrayList<>();
+
+		for (Borrowing borrowing : borrowingsByUser) {
+			borrowedBooks.add(borrowing.getBorrowedBook());
+		}
+		return borrowedBooks;
+	}
+
+	@Override
 	public void borrowBook(Book book, String borrowerEmail) throws BookAlreadyBorrowedException {
 		Borrowing borrowing = borrowingRepository.findBorrowingForBook(book);
 		if (borrowing != null) {
 			throw new BookAlreadyBorrowedException("Book is already borrowed");
 		} else {
-			Book bookFromDatabase = findBookByIsbn(book.getIsbn());
-			borrowing = new Borrowing(bookFromDatabase, borrowerEmail, new DateTime());
+			book = findBookByIsbn(book.getIsbn());
+			borrowing = new Borrowing(book, borrowerEmail, new DateTime());
 			borrowingRepository.save(borrowing);
 		}
 	}
@@ -54,6 +71,7 @@ public class StandardBookService implements BookService {
 	public List<Book> findAllBooks() {
 		return bookRepository.findAllBooks();
 	}
+
 
 	@Override
 	public Book createBook(String title, String author, String edition, String isbn, int yearOfPublication) {
@@ -71,6 +89,5 @@ public class StandardBookService implements BookService {
 		borrowingRepository.deleteAll();
 		bookRepository.deleteAll();
 	}
-
 
 }
