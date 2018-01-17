@@ -27,13 +27,13 @@ import de.codecentric.psd.worblehat.web.formdata.BookBorrowFormData;
 @Controller
 public class BorrowBookController {
 
-    private Logger log = Logger.getLogger("BorrowBookControllerLogger");
+	private Logger log = Logger.getLogger("BorrowBookControllerLogger");
 
 	private BookService bookService;
 
 	@Autowired
 	public BorrowBookController(BookService bookService) {
-		this.bookService= bookService;
+		this.bookService = bookService;
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
@@ -44,20 +44,20 @@ public class BorrowBookController {
 	@Transactional
 	@RequestMapping(method = RequestMethod.POST)
 	public String processSubmit(@ModelAttribute("borrowFormData") @Valid BookBorrowFormData borrowFormData,
-			BindingResult result) {
+								BindingResult result) {
 		if (result.hasErrors()) {
 			return "borrow";
 		}
 		Book book = bookService.findBookByIsbn(borrowFormData.getIsbn());
-		if(book == null) {
+		if (book == null) {
 			result.rejectValue("isbn", "notBorrowable");
 			return "borrow";
 		}
 		try {
 			bookService.borrowBook(book, borrowFormData.getEmail());
 		} catch (BookAlreadyBorrowedException e) {
-            log.severe("The book is already borrowed: " + e.getMessage());
-            result.rejectValue("isbn", "internalError");
+			log.severe("The book is already borrowed: " + e.getMessage());
+			result.rejectValue("isbn", "internalError");
 			return "borrow";
 		}
 		return "home";
