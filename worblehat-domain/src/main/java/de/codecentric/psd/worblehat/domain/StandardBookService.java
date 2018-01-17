@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,6 +35,19 @@ public class StandardBookService implements BookService {
         for (Borrowing borrowing : borrowingsByUser) {
             borrowingRepository.delete(borrowing);
         }
+    }
+
+    @Override
+    public List<Book> getAllBooksByBorrower(String borrowerEmail) {
+        List<Borrowing> borrowingsByUser = borrowingRepository
+                .findBorrowingsByBorrower(borrowerEmail);
+
+        List<Book> borrowedBooks = new ArrayList<>();
+
+        for (Borrowing borrowing : borrowingsByUser) {
+            borrowedBooks.add(borrowing.getBorrowedBook());
+        }
+        return borrowedBooks;
     }
 
     @Override
