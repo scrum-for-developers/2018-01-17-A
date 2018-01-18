@@ -75,7 +75,7 @@ public class StandardBookService implements BookService {
 	@Override
 	public Book createBook(String title, String author, String edition, String isbn, int yearOfPublication,
 			String description) {
-		Book book = new Book(title, author, edition, isbn, yearOfPublication,description);
+		Book book = new Book(title, author, edition, isbn, yearOfPublication,description.replaceAll("(\r\n|\n)", "<br />"));
 		return bookRepository.save(book);
 	}
 

@@ -1,1 +1,1 @@
-ALTER TABLE book ADD description VARCHAR(255);
+ALTER TABLE book ADD description VARCHAR(4096);

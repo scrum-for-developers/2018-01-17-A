@@ -13,7 +13,7 @@ public class BookDataFormData {
 	@NotEmpty(message = "{empty.bookDataFormData.title}")
 	private String title;
 
-	@Length(message = "{invalid.length.bookDataFormData.description}", min = 0, max = 255)
+	@Length(message = "{invalid.length.bookDataFormData.description}", min = 0, max = 4096)
 	private String description;
 
 	@NotEmpty(message = "{empty.bookDataFormData.edition}")
