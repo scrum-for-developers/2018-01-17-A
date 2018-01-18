@@ -8,6 +8,7 @@
 	<thead>
 		<tr>
 			<th>Title</th>
+			<th>Description</th>
 			<th>Author</th>
 			<th>Year</th>
 			<th>Edition</th>
@@ -18,6 +19,7 @@
 	<tbody>
 		<tr th:each="book : ${books}">
 			<td th:text="${book.title}">Harry Potter</td>
+			<td th:text="${book.description}">Description</td>
 			<td th:text="${book.author}">J.K. Rowling</td>
 			<td th:text="${book.yearOfPublication}">2002</td>
 			<td th:text="${book.edition}">1st</td>

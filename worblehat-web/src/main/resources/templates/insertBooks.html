@@ -9,6 +9,9 @@
 			Title:<input type="text" th:field="*{title}" />
 		<span class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
 		<br />
+			Description:<input type="text" th:field="*{description}" />
+		<span class="error" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span>
+		<br />
 			Edition:<input type="text" th:field="*{edition}" />
 		<span class="error" th:if="${#fields.hasErrors('edition')}" th:errors="*{edition}"></span>
 		<br />

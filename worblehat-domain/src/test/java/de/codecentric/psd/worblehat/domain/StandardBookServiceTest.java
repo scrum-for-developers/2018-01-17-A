@@ -1,20 +1,18 @@
 package de.codecentric.psd.worblehat.domain;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class StandardBookServiceTest {
 
@@ -28,9 +26,9 @@ public class StandardBookServiceTest {
 
 	private static final DateTime NOW = DateTime.now();
 
-	private static final Book TEST_BOOK = new Book("title", "author", "edition", "isbn", 2016);
+	private static final Book TEST_BOOK = new Book("title", "author", "edition", "isbn", 2016,"description");
 
-	private static final Book NEWER_TEST_BOOK = new Book("New Title", "new author", "new edition", "new isbn", 2017);
+	private static final Book NEWER_TEST_BOOK = new Book("New Title", "new author", "new edition", "new isbn", 2017,"");
 
 	@Before
 	public void setup() throws Exception {
@@ -71,6 +69,7 @@ public class StandardBookServiceTest {
         assertThat(books.get(0).getIsbn(), is(TEST_BOOK.getIsbn()));
         assertThat(books.get(0).getTitle(), is(TEST_BOOK.getTitle()));
         assertThat(books.get(0).getYearOfPublication(), is(TEST_BOOK.getYearOfPublication()));
+        assertThat(books.get(0).getDescription(), is(TEST_BOOK.getDescription()));
 
         assertThat(books.get(1).getAuthor(), is(NEWER_TEST_BOOK.getAuthor()));
         assertThat(books.get(1).getBorrowerEmail(), is(NEWER_TEST_BOOK.getBorrowerEmail()));
@@ -99,13 +98,14 @@ public class StandardBookServiceTest {
 	public void shouldCreateBook() throws Exception {
 		ArgumentCaptor<Book> bookArgumentCaptor = ArgumentCaptor.forClass(Book.class);
 		bookService.createBook(TEST_BOOK.getTitle(), TEST_BOOK.getAuthor(), TEST_BOOK.getEdition(),
-				TEST_BOOK.getIsbn(), TEST_BOOK.getYearOfPublication());
+				TEST_BOOK.getIsbn(), TEST_BOOK.getYearOfPublication(),TEST_BOOK.getDescription());
 		verify(bookRepository).save(bookArgumentCaptor.capture());
 		assertThat(bookArgumentCaptor.getValue().getTitle(), is(TEST_BOOK.getTitle()));
 		assertThat(bookArgumentCaptor.getValue().getAuthor(), is(TEST_BOOK.getAuthor()));
 		assertThat(bookArgumentCaptor.getValue().getEdition(), is(TEST_BOOK.getEdition()));
 		assertThat(bookArgumentCaptor.getValue().getIsbn(), is(TEST_BOOK.getIsbn()));
 		assertThat(bookArgumentCaptor.getValue().getYearOfPublication(), is(TEST_BOOK.getYearOfPublication()));
+		assertThat(bookArgumentCaptor.getValue().getDescription(), is(TEST_BOOK.getDescription()));
 	}
 
 	@Test
