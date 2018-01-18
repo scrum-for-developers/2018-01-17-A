@@ -1,7 +1,5 @@
 package de.codecentric.psd.worblehat.web.controller;
 
-import java.util.HashMap;
-
 import de.codecentric.psd.worblehat.domain.Book;
 import de.codecentric.psd.worblehat.domain.BookService;
 import de.codecentric.psd.worblehat.web.formdata.BookDataFormData;
@@ -12,13 +10,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.MapBindingResult;
 import org.springframework.validation.ObjectError;
 
+import java.util.HashMap;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class InsertBookControllerTest {
 
@@ -30,7 +28,7 @@ public class InsertBookControllerTest {
 
     private BindingResult bindingResult;
 
-    private static final Book TEST_BOOK = new Book("title", "author", "edition", "isbn", 2016);
+    private static final Book TEST_BOOK = new Book("title", "author", "edition", "isbn", 2016,"");
 
     @Before
     public void setUp() throws Exception {
@@ -82,7 +80,7 @@ public class InsertBookControllerTest {
 
     private void verifyBookIsCreated() {
         verify(bookService).createBook(TEST_BOOK.getTitle(), TEST_BOOK.getAuthor(),
-                TEST_BOOK.getEdition(), TEST_BOOK.getIsbn(), TEST_BOOK.getYearOfPublication());
+                TEST_BOOK.getEdition(), TEST_BOOK.getIsbn(), TEST_BOOK.getYearOfPublication(),TEST_BOOK.getDescription());
     }
 
     private void setupFormData() {
@@ -91,5 +89,6 @@ public class InsertBookControllerTest {
         bookDataFormData.setEdition(TEST_BOOK.getEdition());
         bookDataFormData.setIsbn(TEST_BOOK.getIsbn());
         bookDataFormData.setYearOfPublication(String.valueOf(TEST_BOOK.getYearOfPublication()));
+        bookDataFormData.setDescription(TEST_BOOK.getDescription());
     }
 }

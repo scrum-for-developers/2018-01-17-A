@@ -1,0 +1,1 @@
+ALTER TABLE book ADD description VARCHAR(4096);
