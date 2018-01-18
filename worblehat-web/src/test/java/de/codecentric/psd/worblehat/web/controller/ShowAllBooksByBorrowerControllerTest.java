@@ -1,15 +1,15 @@
 package de.codecentric.psd.worblehat.web.controller;
 
-import java.util.HashMap;
-
 import de.codecentric.psd.worblehat.domain.BookService;
-import de.codecentric.psd.worblehat.web.formdata.ReturnAllBooksFormData;
+import de.codecentric.psd.worblehat.web.formdata.ShowAllBooksByBorrowerFormData;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.MapBindingResult;
 import org.springframework.validation.ObjectError;
+
+import java.util.HashMap;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -18,21 +18,21 @@ import static org.hamcrest.Matchers.nullValue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-public class ReturnAllBooksControllerTest {
+public class ShowAllBooksByBorrowerControllerTest {
 
-    private ReturnAllBooksController returnAllBooksController;
+    private ShowAllBooksByBorrowerController showAllBooksByBorrowerController;
 
     private BookService bookService;
 
-    private ReturnAllBooksFormData returnAllBooksFormData;
+    private ShowAllBooksByBorrowerFormData showAllBooksByBorrowerFormData;
 
     private BindingResult bindingResult;
 
     @Before
     public void setUp() throws Exception {
         bookService = mock(BookService.class);
-        returnAllBooksController = new ReturnAllBooksController(bookService);
-        returnAllBooksFormData = new ReturnAllBooksFormData();
+        showAllBooksByBorrowerController = new ShowAllBooksByBorrowerController(bookService);
+        showAllBooksByBorrowerFormData = new ShowAllBooksByBorrowerFormData();
         bindingResult = new MapBindingResult(new HashMap<>(), "");
     }
 
@@ -40,28 +40,30 @@ public class ReturnAllBooksControllerTest {
     public void shouldSetupForm() throws Exception {
         ModelMap modelMap = new ModelMap();
 
-        returnAllBooksController.prepareView(modelMap);
+        showAllBooksByBorrowerController.prepareView(modelMap);
 
-        assertThat(modelMap.get("returnAllBookFormData"), is(not(nullValue())));
+        assertThat(modelMap.get("showAllBooksByBorrowerFormData"), is(not(nullValue())));
     }
 
     @Test
     public void shouldRejectErrors() throws Exception {
+        ModelMap modelMap = new ModelMap();
         bindingResult.addError(new ObjectError("", ""));
 
-        String navigateTo = returnAllBooksController.returnAllBooks(returnAllBooksFormData, bindingResult);
+        String navigateTo = showAllBooksByBorrowerController.showAllBooksByBorrower(showAllBooksByBorrowerFormData, bindingResult, modelMap);
 
-        assertThat(navigateTo, is("returnAllBooks"));
+        assertThat(navigateTo, is("showAllBooksByBorrower"));
     }
 
     @Test
     public void shouldReturnAllBooksAndNavigateHome() throws Exception {
+        ModelMap modelMap = new ModelMap();
         String borrower = "someone@codecentric.de";
-        returnAllBooksFormData.setEmailAddress(borrower);
+        showAllBooksByBorrowerFormData.setEmailAddress(borrower);
 
-        String navigateTo = returnAllBooksController.returnAllBooks(returnAllBooksFormData, bindingResult);
+        String navigateTo = showAllBooksByBorrowerController.showAllBooksByBorrower(showAllBooksByBorrowerFormData, bindingResult, modelMap);
 
-        verify(bookService).returnAllBooksByBorrower(borrower);
-        assertThat(navigateTo, is("home"));
+        verify(bookService).getAllBooksByBorrower(borrower);
+        assertThat(navigateTo, is("bookList"));
     }
 }
