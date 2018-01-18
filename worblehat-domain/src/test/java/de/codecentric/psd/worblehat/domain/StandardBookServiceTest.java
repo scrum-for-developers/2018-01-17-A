@@ -135,14 +135,14 @@ public class StandardBookServiceTest {
 
 	@Test
 	public void shouldFindexistingBooks() throws Exception {
-		when(bookRepository.findBookByIsbn(TEST_BOOK.getIsbn())).thenReturn(TEST_BOOK);
-		Book actualBook = bookRepository.findBookByIsbn(TEST_BOOK.getIsbn());
-		assertThat(actualBook, is(TEST_BOOK));
+		when(bookRepository.findBookByIsbn(TEST_BOOK.getIsbn())).thenReturn(Collections.singletonList(TEST_BOOK));
+		List<Book> actualBook = bookRepository.findBookByIsbn(TEST_BOOK.getIsbn());
+		assertThat(actualBook.iterator().next(), is(TEST_BOOK));
 	}
 
 	@Test
 	public void shouldVerifyExistingBooks() throws Exception {
-		when(bookRepository.findBookByIsbn(TEST_BOOK.getIsbn())).thenReturn(TEST_BOOK);
+		when(bookRepository.findBookByIsbn(TEST_BOOK.getIsbn())).thenReturn(Collections.singletonList(TEST_BOOK));
 		Boolean bookExists = bookService.bookExists(TEST_BOOK.getIsbn());
 		assertTrue(bookExists);
 	}

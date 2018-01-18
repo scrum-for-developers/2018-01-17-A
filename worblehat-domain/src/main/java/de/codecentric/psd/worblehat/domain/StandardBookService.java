@@ -4,6 +4,7 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +65,13 @@ public class StandardBookService implements BookService {
 
 	@Override
 	public Book findBookByIsbn(String isbn) {
-		return bookRepository.findBookByIsbn(isbn); //null if not found
+
+		final List<Book> bookByIsbn = bookRepository.findBookByIsbn(isbn);
+
+		if(!CollectionUtils.isEmpty(bookByIsbn)){
+			return bookByIsbn.stream().findFirst().get();
+		}
+		return null; //null if not found
 	}
 
 	@Override
@@ -75,7 +82,12 @@ public class StandardBookService implements BookService {
 	@Override
 	public Book createBook(String title, String author, String edition, String isbn, int yearOfPublication,
 			String description) {
-		Book book = new Book(title, author, edition, isbn, yearOfPublication,description.replaceAll("(\r\n|\n)", "<br />"));
+
+		if(description != null){
+			description = description.replaceAll("(\r\n|\n)", "<br />");
+		}
+
+		Book book = new Book(title, author, edition, isbn, yearOfPublication,description);
 		return bookRepository.save(book);
 	}
 

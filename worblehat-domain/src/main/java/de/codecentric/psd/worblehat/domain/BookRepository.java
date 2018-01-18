@@ -12,7 +12,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     public List<Book> findAllBooks();
 
     @Query("SELECT b from Book b WHERE b.isbn = :isbn")
-    public Book findBookByIsbn(@Param("isbn")String isbn);
+    public List<Book> findBookByIsbn(@Param("isbn")String isbn);
 
     @Query("SELECT b from Book b where b.isbn = :isbn")
     List<Book> findBooksByIsbn(String value);
