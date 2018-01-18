@@ -5,4 +5,5 @@
 
 	<include file="de/codecentric/psd/worblehat/liquibase-changesets/version-1.0/001-initialize-db.sql" />
 	<include file="de/codecentric/psd/worblehat/liquibase-changesets/version-1.0/002-bookDescription.sql" />
+	<include file="de/codecentric/psd/worblehat/liquibase-changesets/version-1.0/003-bookIndex.sql" />
 </databaseChangeLog>
