@@ -1,9 +1,8 @@
 package de.codecentric.psd.worblehat.web.controller;
 
-import java.util.List;
-
-import javax.validation.Valid;
-
+import de.codecentric.psd.worblehat.domain.BookService;
+import de.codecentric.psd.worblehat.domain.Borrowing;
+import de.codecentric.psd.worblehat.web.formdata.ShowAllBooksByBorrowerFormData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -12,9 +11,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import de.codecentric.psd.worblehat.domain.BookService;
-import de.codecentric.psd.worblehat.domain.Borrowing;
-import de.codecentric.psd.worblehat.web.formdata.ShowAllBooksByBorrowerFormData;
+import javax.validation.Valid;
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Controller
 @RequestMapping("/showAllBooksByBorrower")
@@ -41,6 +41,11 @@ public class ShowAllBooksByBorrowerController {
 			return "showAllBooksByBorrower";
 		} else {
 			List<Borrowing> allBorrowingByBorrower = bookService.getAllBorrowingByBorrower(formData.getEmailAddress());
+
+            for (Borrowing b : allBorrowingByBorrower) {
+            	b.setBorrowDate(new Date(b.getBorrowDate().getTime() + TimeUnit.DAYS.toMillis( 20 )));
+            }
+
 			modelMap.put("borrowings", allBorrowingByBorrower);
 
 			return "borrowedBooksList";
