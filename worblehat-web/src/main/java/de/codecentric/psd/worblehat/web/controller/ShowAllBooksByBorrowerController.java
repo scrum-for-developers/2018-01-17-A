@@ -32,9 +32,9 @@ public class ShowAllBooksByBorrowerController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String returnAllBooks(
+    public String showAllBooksByBorrower(
             @ModelAttribute("showAllBooksByBorrowerFormData") @Valid
-                    ReturnAllBooksFormData formData,
+                    ShowAllBooksByBorrowerFormData formData,
             BindingResult result, ModelMap modelMap) {
         if (result.hasErrors()) {
             return "showAllBooksByBorrower";
