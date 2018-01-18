@@ -30,6 +30,8 @@ public class StandardBookServiceTest {
 
 	private static final Book TEST_BOOK = new Book("title", "author", "edition", "isbn", 2016);
 
+	private static final Book NEWER_TEST_BOOK = new Book("New Title", "new author", "new edition", "new isbn", 2017);
+
 	@Before
 	public void setup() throws Exception {
 		borrowingRepository = mock(BorrowingRepository.class);
@@ -45,6 +47,37 @@ public class StandardBookServiceTest {
 		.thenReturn(result);
 		bookService.returnAllBooksByBorrower(BORROWER_EMAIL);
 		verify(borrowingRepository).delete(borrowing);
+	}
+
+	@Test
+	public void shouldGetAllBooksOfOnePerson() {
+		Borrowing borrowing = new Borrowing(TEST_BOOK, BORROWER_EMAIL, NOW.minusDays(10));
+		Borrowing borrowing1 = new Borrowing(NEWER_TEST_BOOK, BORROWER_EMAIL, NOW);
+
+		List<Borrowing> result = new ArrayList<>();
+		result.add(borrowing);
+		result.add(borrowing1);
+
+		when(borrowingRepository.findBorrowingsByBorrower(BORROWER_EMAIL))
+				.thenReturn(result);
+
+        List<Book> books = bookService.getAllBooksByBorrower(BORROWER_EMAIL);
+
+        assertThat(books.size(), is(2));
+
+        assertThat(books.get(0).getAuthor(), is(TEST_BOOK.getAuthor()));
+        assertThat(books.get(0).getBorrowerEmail(), is(TEST_BOOK.getBorrowerEmail()));
+        assertThat(books.get(0).getEdition(), is(TEST_BOOK.getEdition()));
+        assertThat(books.get(0).getIsbn(), is(TEST_BOOK.getIsbn()));
+        assertThat(books.get(0).getTitle(), is(TEST_BOOK.getTitle()));
+        assertThat(books.get(0).getYearOfPublication(), is(TEST_BOOK.getYearOfPublication()));
+
+        assertThat(books.get(1).getAuthor(), is(NEWER_TEST_BOOK.getAuthor()));
+        assertThat(books.get(1).getBorrowerEmail(), is(NEWER_TEST_BOOK.getBorrowerEmail()));
+        assertThat(books.get(1).getEdition(), is(NEWER_TEST_BOOK.getEdition()));
+        assertThat(books.get(1).getIsbn(), is(NEWER_TEST_BOOK.getIsbn()));
+        assertThat(books.get(1).getTitle(), is(NEWER_TEST_BOOK.getTitle()));
+        assertThat(books.get(1).getYearOfPublication(), is(NEWER_TEST_BOOK.getYearOfPublication()));
 	}
 
 	@Test
