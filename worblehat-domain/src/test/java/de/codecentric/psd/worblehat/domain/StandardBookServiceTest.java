@@ -32,6 +32,8 @@ public class StandardBookServiceTest {
 
 	private static final Book TEST_BOOK_DESCRIPTION = new Book("New Title", "new author", "new edition", "new isbn", 2017,"\n");
 
+	private static final Book TEST_BOOK_UNGETRIMT = new Book("New Title", "new author", "new edition", "    ABCD   ", 2017,"description");
+
 	@Before
 	public void setup() throws Exception {
 		borrowingRepository = mock(BorrowingRepository.class);
@@ -122,6 +124,20 @@ public class StandardBookServiceTest {
 		assertThat(bookArgumentCaptor.getValue().getIsbn(), is(TEST_BOOK_DESCRIPTION.getIsbn()));
 		assertThat(bookArgumentCaptor.getValue().getYearOfPublication(), is(TEST_BOOK_DESCRIPTION.getYearOfPublication()));
 		assertThat(bookArgumentCaptor.getValue().getDescription(), is("<br />"));
+	}
+
+	@Test
+	public void shouldCreateBookAndTrimIsbn() throws Exception {
+		ArgumentCaptor<Book> bookArgumentCaptor = ArgumentCaptor.forClass(Book.class);
+		bookService.createBook(TEST_BOOK_UNGETRIMT.getTitle(), TEST_BOOK_UNGETRIMT.getAuthor(), TEST_BOOK_UNGETRIMT.getEdition(),
+				TEST_BOOK_UNGETRIMT.getIsbn(), TEST_BOOK_UNGETRIMT.getYearOfPublication(),TEST_BOOK_UNGETRIMT.getDescription());
+		verify(bookRepository).save(bookArgumentCaptor.capture());
+		assertThat(bookArgumentCaptor.getValue().getTitle(), is(TEST_BOOK_UNGETRIMT.getTitle()));
+		assertThat(bookArgumentCaptor.getValue().getAuthor(), is(TEST_BOOK_UNGETRIMT.getAuthor()));
+		assertThat(bookArgumentCaptor.getValue().getEdition(), is(TEST_BOOK_UNGETRIMT.getEdition()));
+		assertThat(bookArgumentCaptor.getValue().getIsbn(), is(TEST_BOOK_UNGETRIMT.getIsbn().trim()));
+		assertThat(bookArgumentCaptor.getValue().getYearOfPublication(), is(TEST_BOOK_UNGETRIMT.getYearOfPublication()));
+		assertThat(bookArgumentCaptor.getValue().getDescription(), is(TEST_BOOK_UNGETRIMT.getDescription()));
 	}
 
 	@Test
