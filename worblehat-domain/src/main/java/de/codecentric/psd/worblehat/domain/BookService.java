@@ -11,6 +11,8 @@ public interface BookService {
 
 	List<Book> getAllBooksByBorrower(String borrowerEmail);
 
+	public List<Borrowing> getAllBorrowingByBorrower(String borrowerEmail);
+
 	void borrowBook(Book book, String borrower) throws BookAlreadyBorrowedException;
 
 	Book findBookByIsbn(String isbn);

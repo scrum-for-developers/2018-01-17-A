@@ -1,8 +1,7 @@
 package de.codecentric.psd.worblehat.web.controller;
 
-import de.codecentric.psd.worblehat.domain.Book;
 import de.codecentric.psd.worblehat.domain.BookService;
-import de.codecentric.psd.worblehat.web.formdata.ReturnAllBooksFormData;
+import de.codecentric.psd.worblehat.domain.Borrowing;
 import de.codecentric.psd.worblehat.web.formdata.ShowAllBooksByBorrowerFormData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,36 +12,47 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Controller
 @RequestMapping("/showAllBooksByBorrower")
 public class ShowAllBooksByBorrowerController {
 
-    private BookService bookService;
+	private BookService bookService;
 
-    @Autowired
-    public ShowAllBooksByBorrowerController(BookService bookService) {
-        this.bookService = bookService;
-    }
+	@Autowired
+	public ShowAllBooksByBorrowerController(BookService bookService) {
+		this.bookService = bookService;
+	}
 
-    @RequestMapping(method = RequestMethod.GET)
-    public void prepareView(ModelMap modelMap) {
-        modelMap.put("showAllBooksByBorrowerFormData", new ShowAllBooksByBorrowerFormData());
-    }
+	@RequestMapping(method = RequestMethod.GET)
+	public void prepareView(ModelMap modelMap) {
+		modelMap.put("showAllBooksByBorrowerFormData", new ShowAllBooksByBorrowerFormData());
+	}
 
-    @RequestMapping(method = RequestMethod.POST)
-    public String showAllBooksByBorrower(
-            @ModelAttribute("showAllBooksByBorrowerFormData") @Valid
-                    ShowAllBooksByBorrowerFormData formData,
-            BindingResult result, ModelMap modelMap) {
-        if (result.hasErrors()) {
-            return "showAllBooksByBorrower";
-        } else {
-            List<Book> allBooksByBorrower = bookService.getAllBooksByBorrower(formData.getEmailAddress());
-            modelMap.put("books", allBooksByBorrower);
+	@RequestMapping(method = RequestMethod.POST)
+	public String showAllBooksByBorrower(
+			@ModelAttribute("showAllBooksByBorrowerFormData") @Valid
+			ShowAllBooksByBorrowerFormData formData,
+			BindingResult result, ModelMap modelMap) {
+		if (result.hasErrors()) {
+			return "showAllBooksByBorrower";
+		} else {
+			List<Borrowing> allBorrowingByBorrower = bookService.getAllBorrowingByBorrower(formData.getEmailAddress());
 
-            return "bookList";
-        }
-    }
+			SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+
+            for (Borrowing b : allBorrowingByBorrower) {
+				final Date borrowDate = new Date(b.getBorrowDate().getTime() + TimeUnit.DAYS.toMillis(20));
+				b.setBorrowDate(borrowDate);
+			}
+
+			modelMap.put("borrowings", allBorrowingByBorrower);
+
+			return "borrowedBooksList";
+		}
+	}
 }
