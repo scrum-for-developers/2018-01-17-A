@@ -4,15 +4,24 @@
 <title>Worblehat Bookmanager</title>
 </head>
 <body>
-<h1 id="welcome_heading"><span th:texgitt="${@environment.getProperty('spring.application.name')}"></span></h1>
 
-<ul>
-    <li><a th:href="@{/bookList}">Show all Books</a></li>
-    <li><a th:href="@{/insertBooks}">Add a new book</a></li>
-    <li><a th:href="@{/borrow}">Borrow Book</a></li>
-    <li><a th:href="@{/returnAllBooks}">Return all Books</a></li>
-    <li><a th:href="@{/showAllBooksByBorrower}">Show all Books by Borrower</a></li>
-</ul>
-<div th:replace="fragments/footer :: footer"></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-2">
+            <div th:replace="fragments/navigation :: navigation"></div>
+
+        </div>
+        <div class="col-sm-10">
+            <h1>Welcome to Worblehat Library!</h1>
+        </div>
+    </div>
+</div>
+<footer>
+    <div class="container">
+        <div th:replace="fragments/footer :: footer"></div>
+    </div>
+</footer>
+
 </body>
 </html>
