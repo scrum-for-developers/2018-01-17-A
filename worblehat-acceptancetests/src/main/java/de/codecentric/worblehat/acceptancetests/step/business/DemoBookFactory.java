@@ -1,13 +1,14 @@
 package de.codecentric.worblehat.acceptancetests.step.business;
 
 import de.codecentric.psd.worblehat.domain.Book;
+import org.apache.commons.lang.StringUtils;
 
 public class DemoBookFactory {
 
     private Book book;
 
     private DemoBookFactory(){
-        this.book = new Book("A book title", "A book author", "1", "1234567890", 2013);
+        this.book = new Book("A book title", "A book author", "1", "1234567890", 2013, StringUtils.EMPTY);
     }
 
     public static DemoBookFactory createDemoBook(){
