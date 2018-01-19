@@ -2,34 +2,49 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<title>Show all Books</title>
+	<link rel="stylesheet" href="http://localhost:8080/worblehat/css/bootstrap.min.css"/>
 </head>
 <body>
-	<table class="bookList">
-	<thead>
-		<tr>
-			<th>Title</th>
-			<th>Description</th>
-			<th>Author</th>
-			<th>Year</th>
-			<th>Edition</th>
-			<th>ISBN</th>
-			<th>Borrower</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr th:each="book : ${books}">
-			<td th:text="${book.title}">Harry Potter</td>
-			<td th:utext="${book.description}">Description</td>
-			<td th:text="${book.author}">J.K. Rowling</td>
-			<td th:text="${book.yearOfPublication}">2002</td>
-			<td th:text="${book.edition}">1st</td>
-			<td th:text="${book.isbn}">123456</td>
-			<td th:text="${book.borrowerEmail}">someone@codecentric.de</td>
-		</tr>
-	</tbody>
-	</table>
-	<hr />
-	<a th:href="@{/}">Back to Home</a>
-	<div th:replace="fragments/footer :: footer"></div>
+<div class="container">
+	<div class="row">
+		<div class="col-sm-2">
+			<h5>Users</h5>
+		</div>
+		<div class="col-sm-10">
+			<table class="bookList">
+			<thead>
+				<tr>
+					<th>Title</th>
+					<th>Description</th>
+					<th>Author</th>
+					<th>Year</th>
+					<th>Edition</th>
+					<th>ISBN</th>
+					<th>Borrower</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="book : ${books}">
+					<td th:text="${book.title}">Harry Potter</td>
+					<td th:utext="${book.description}">Description</td>
+					<td th:text="${book.author}">J.K. Rowling</td>
+					<td th:text="${book.yearOfPublication}">2002</td>
+					<td th:text="${book.edition}">1st</td>
+					<td th:text="${book.isbn}">123456</td>
+					<td th:text="${book.borrowerEmail}">someone@codecentric.de</td>
+				</tr>
+			</tbody>
+			</table>
+			<hr />
+			<a th:href="@{/}">Back to Home</a>
+		</div>
+	</div>
+</div>
+<footer>
+	<div class="container">
+		<div th:replace="fragments/footer :: footer"></div>
+	</div>
+</footer>
+
 </body>
 </html>
