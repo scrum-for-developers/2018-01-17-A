@@ -57,8 +57,18 @@
 
 		<release version="1.4" date="2017-01-19"
 				 description="Sauberes Release">
+			<action dev="ScrumDevs" type="update">
+				Akzeptanztests wurden eingerichtet (lokal &amp; Jenkins)
+			</action>
+			<action dev="ScrumDevs" type="update">
+				Akzeptanztests wurden angepasst.
+			</action>
+            <action dev="ScrumDevs" type="update">
+                Sonar erkannte Bugs &amp; Smells wurden behoben.
+            </action>
+            <action dev="ScrumDevs" type="update">
+                Dokumentation veralteter Versionen wurde erzgänzt.
+            </action>
 		</release>
-
-
 	</body>
 </document>
