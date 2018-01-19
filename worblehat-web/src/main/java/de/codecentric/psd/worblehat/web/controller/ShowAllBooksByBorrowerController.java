@@ -43,8 +43,6 @@ public class ShowAllBooksByBorrowerController {
 		} else {
 			List<Borrowing> allBorrowingByBorrower = bookService.getAllBorrowingByBorrower(formData.getEmailAddress());
 
-			SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-
             for (Borrowing b : allBorrowingByBorrower) {
 				final Date borrowDate = new Date(b.getBorrowDate().getTime() + TimeUnit.DAYS.toMillis(20));
 				b.setBorrowDate(borrowDate);
