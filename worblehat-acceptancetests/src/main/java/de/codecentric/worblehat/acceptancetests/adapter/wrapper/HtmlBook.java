@@ -3,14 +3,16 @@ package de.codecentric.worblehat.acceptancetests.adapter.wrapper;
 public class HtmlBook {
 
     private final String title;
+    private final String description;
     private final String author;
     private final String edition;
     private final String isbn;
     private final String yearOfPublication;
     private final String borrower;
 
-    public HtmlBook(String title, String author, String yearOfPublication, String edition, String isbn, String borrower) {
+    public HtmlBook(String title, String description, String author, String yearOfPublication, String edition, String isbn, String borrower) {
         this.title = title;
+        this.description = description;
         this.author = author;
         this.edition = edition;
         this.isbn = isbn;
@@ -21,6 +23,8 @@ public class HtmlBook {
     public String getTitle() {
         return title;
     }
+
+    public String getDescription() { return description; }
 
     public String getAuthor() {
         return author;

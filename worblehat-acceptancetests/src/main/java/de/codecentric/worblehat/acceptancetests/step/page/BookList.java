@@ -27,8 +27,9 @@ public class BookList {
         this.seleniumAdapter = seleniumAdapter;
     }
 
-    @Then("The booklist contains a book with values title <title>, author <author>, year <year>, edition <edition>, isbn <isbn>")
+    @Then("The booklist contains a book with values title <title>, desciption <description>, author <author>, year <year>, edition <edition>, isbn <isbn>")
     public void bookListContainsRowWithValues(@Named("title") final String title,
+                                              @Named("description") final String description,
                                               @Named("author") final String author,
                                               @Named("year") final String year,
                                               @Named("edition") final String edition,
@@ -36,6 +37,7 @@ public class BookList {
         seleniumAdapter.gotoPage(Page.BOOKLIST);
         HtmlBookList htmlBookList = seleniumAdapter.getTableContent(PageElement.BOOKLIST);
         HtmlBook htmlBook = htmlBookList.getBookByIsbn(isbn);
+        assertThat(description, is(htmlBook.getDescription()));
         assertThat(title, is(htmlBook.getTitle()));
         assertThat(author, is(htmlBook.getAuthor()));
         assertThat(year, is(htmlBook.getYearOfPublication()));
