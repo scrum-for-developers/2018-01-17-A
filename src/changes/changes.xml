@@ -48,11 +48,15 @@
 		<release version="1.3" date="2017-01-18"
 				 description="Sauberes Release &amp; richtige ISBN">
 			<action dev="Michael" type="update">
-				Version der Anwendung wird angezeigt.
+				ISBN wird korrekt plausibilisiert (trimmen).
 			</action>
 			<action dev="Michael" type="update">
-				Description eines Buches hinzugefügt.
+				Alle Bücher eines Ausleihers können angezeigt werden.
 			</action>
+		</release>
+
+		<release version="1.4" date="2017-01-19"
+				 description="Sauberes Release">
 		</release>
 
 

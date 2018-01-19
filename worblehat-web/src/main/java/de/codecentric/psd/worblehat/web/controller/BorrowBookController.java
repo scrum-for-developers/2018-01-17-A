@@ -58,7 +58,7 @@ public class BorrowBookController {
 		} catch (BookAlreadyBorrowedException e) {
 			log.severe("The book is already borrowed: " + e.getMessage());
 			result.rejectValue("isbn", "internalError");
-			return "borrow";
+			return "borrowings";
 		}
 		return "home";
 	}
