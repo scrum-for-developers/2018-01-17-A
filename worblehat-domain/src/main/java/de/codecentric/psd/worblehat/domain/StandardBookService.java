@@ -14,19 +14,16 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class StandardBookService implements BookService {
-	public StandardBookService() {
 
-	}
+	private BorrowingRepository borrowingRepository;
+
+	private BookRepository bookRepository;
 
 	@Autowired
 	public StandardBookService(BorrowingRepository borrowingRepository, BookRepository bookRepository) {
 		this.borrowingRepository = borrowingRepository;
 		this.bookRepository = bookRepository;
 	}
-
-	private BorrowingRepository borrowingRepository;
-
-	private BookRepository bookRepository;
 
 	@Override
 	public void returnAllBooksByBorrower(String borrowerEmailAddress) {
