@@ -28,7 +28,7 @@
 		<td th:text="${borrowing.borrowedBook.yearOfPublication}">2002</td>
 		<td th:text="${borrowing.borrowedBook.edition}">1st</td>
 		<td th:text="${borrowing.borrowedBook.isbn}">123456</td>
-		<td th:text="${borrowing.borrowDate}">00.00.0000</td>
+		<td th:text="${#dates.format(borrowing.dueDate, 'yyyy-MM-dd')}">00.00.0000</td>
 	</tr>
 	</tbody>
 </table>
