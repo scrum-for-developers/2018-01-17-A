@@ -1,5 +1,6 @@
 package de.codecentric.psd.worblehat.web.controller;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -56,7 +57,7 @@ public class BorrowBookController {
 		try {
 			bookService.borrowBook(book, borrowFormData.getEmail());
 		} catch (BookAlreadyBorrowedException e) {
-			log.severe("The book is already borrowed: " + e.getMessage());
+			log.log(Level.SEVERE, "The book is already borrowed: " + e.getMessage(), e);
 			result.rejectValue("isbn", "internalError");
 			return "borrowings";
 		}
