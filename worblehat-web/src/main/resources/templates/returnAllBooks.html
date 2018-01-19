@@ -2,21 +2,38 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <title>Return All Books - Worblehat Bookmanager</title>
+	<link rel="stylesheet" href="css/bootstrap.css"/>
 </head>
 <body>
-	<h1>Return all Books</h1>
 
-	<form th:object="${returnAllBookFormData}" method="POST">
-		 Email Address:<input id="emailAddress" type="text" th:field="*{emailAddress}" />
-		<span th:if="${#fields.hasErrors('emailAddress')}" th:errors="*{emailAddress}"></span>
-		<br />
-		<input type="submit" id="returnAllBooks" value="Return All Books" />
+<div class="container">
+	<div class="row">
+		<div class="col-sm-2">
+			<div th:replace="fragments/navigation :: navigation"></div>
 
-	</form>
+		</div>
+		<div class="col-sm-10">
 
-	<hr />
-	<a th:href="@{/}">Back to Home</a>
+			<h2>Return all Books</h2>
 
-	<div th:replace="fragments/footer :: footer"></div>
+			<form th:object="${returnAllBookFormData}" method="POST">
+				Email Address:<input id="emailAddress" type="text" th:field="*{emailAddress}" />
+				<span th:if="${#fields.hasErrors('emailAddress')}" th:errors="*{emailAddress}"></span>
+				<br />
+				<input type="submit" id="returnAllBooks" value="Return All Books" />
+
+			</form>
+
+			<hr />
+			<a th:href="@{/}">Back to Home</a>
+		</div>
+	</div>
+</div>
+<footer>
+	<div class="container">
+		<div th:replace="fragments/footer :: footer"></div>
+	</div>
+</footer>
+
 </body>
 </html>

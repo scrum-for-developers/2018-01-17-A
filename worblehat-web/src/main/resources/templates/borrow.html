@@ -2,22 +2,36 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <title>Borrow book - Worblehat Bookmanager</title>
+	<link rel="stylesheet" href="css/bootstrap.css"/>
 </head>
 <body>
-	<h1>Borrow Book</h1>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-2">
+				<div th:replace="fragments/navigation :: navigation"></div>
 
-	<form th:object="${borrowFormData}" method="POST">
-		ISBN:<input id="isbn" type="text" th:field="*{isbn}" />
-		<span id="isbn-error" th:if="${#fields.hasErrors('isbn')}" th:errors="*{isbn}"></span>
-		<br />
-		Email:<input id="email" type="text" th:field="*{email}" />
-		<span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
-		<br />
-		<input type="submit" id="borrowBook" value="Borrow Book" />
-		<hr />
-		<a th:href="@{/}">Back to Home</a>
-	</form>
+			</div>
+			<div class="col-sm-10">
+				<h2>Borrow Book</h2>
+				<form th:object="${borrowFormData}" method="POST">
+					ISBN:<input id="isbn" type="text" th:field="*{isbn}" />
+					<span id="isbn-error" th:if="${#fields.hasErrors('isbn')}" th:errors="*{isbn}"></span>
+					<br />
+					Email:<input id="email" type="text" th:field="*{email}" />
+					<span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+					<br />
+					<input type="submit" id="borrowBook" value="Borrow Book" />
+					<hr />
+					<a th:href="@{/}">Back to Home</a>
+				</form>
+			</div>
+		</div>
+	</div>
+	<footer>
+		<div class="container">
+			<div th:replace="fragments/footer :: footer"></div>
+		</div>
+	</footer>
 
-	<div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>
