@@ -61,8 +61,8 @@ public class StandardBookService implements BookService {
 		if (borrowing != null) {
 			throw new BookAlreadyBorrowedException("Book is already borrowed");
 		} else {
-			book = findBookByIsbn(book.getIsbn());
-			borrowing = new Borrowing(book, borrowerEmail, new DateTime());
+			final Book bookOfRepository = findBookByIsbn(book.getIsbn());
+			borrowing = new Borrowing(bookOfRepository, borrowerEmail, new DateTime());
 			borrowingRepository.save(borrowing);
 		}
 	}

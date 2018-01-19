@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -42,8 +41,6 @@ public class ShowAllBooksByBorrowerController {
 			return "showAllBooksByBorrower";
 		} else {
 			List<Borrowing> allBorrowingByBorrower = bookService.getAllBorrowingByBorrower(formData.getEmailAddress());
-
-			SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
 
             for (Borrowing b : allBorrowingByBorrower) {
 				final Date borrowDate = new Date(b.getBorrowDate().getTime() + TimeUnit.DAYS.toMillis(20));
