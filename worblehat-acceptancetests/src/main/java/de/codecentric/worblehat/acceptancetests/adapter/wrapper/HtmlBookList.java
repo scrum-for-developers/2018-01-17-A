@@ -21,11 +21,12 @@ public class HtmlBookList {
             List<WebElement> colums = row.findElements(By.tagName("td"));
             HtmlBook htmlBook = new HtmlBook(
                     colums.get(0).getText(), //Title
-                    colums.get(1).getText(), //Author
-                    colums.get(2).getText(), //Year
-                    colums.get(3).getText(), //Edition
-                    colums.get(4).getText(), //ISBN
-                    colums.get(5).getText());//Borrower
+                    colums.get(1).getText(), //Description
+                    colums.get(2).getText(), //Author
+                    colums.get(3).getText(), //Year
+                    colums.get(4).getText(), //Edition
+                    colums.get(5).getText(), //ISBN
+                    colums.get(6).getText());//Borrower
             values.put(htmlBook.getIsbn(), htmlBook);
         }
     }
