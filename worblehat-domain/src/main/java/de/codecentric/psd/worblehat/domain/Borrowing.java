@@ -2,6 +2,7 @@ package de.codecentric.psd.worblehat.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -45,7 +46,7 @@ public class Borrowing implements Serializable {
 		this.borrowDate = borrowDate.toDate();
 	}
 
-	private Borrowing() {
+	Borrowing() {
 		// for JPA
 	}
 
@@ -77,4 +78,8 @@ public class Borrowing implements Serializable {
 	public void setBorrowedBook(Book borrowedBook) {
 		this.borrowedBook = borrowedBook;
 	}
+
+    public Date getDueDate() {
+        return new Date(borrowDate.getTime() + TimeUnit.DAYS.toMillis(20));
+    }
 }
