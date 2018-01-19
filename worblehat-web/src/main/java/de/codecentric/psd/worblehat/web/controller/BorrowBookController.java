@@ -28,6 +28,12 @@ import de.codecentric.psd.worblehat.web.formdata.BookBorrowFormData;
 @Controller
 public class BorrowBookController {
 
+	private static final String BORROW = "borrow";
+
+	private static final String HOME = "home";
+
+	private static final String BORROW_FORM_DATA = "borrowFormData";
+
 	private Logger log = Logger.getLogger("BorrowBookControllerLogger");
 
 	private BookService bookService;
@@ -39,20 +45,20 @@ public class BorrowBookController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public void setupForm(final ModelMap model) {
-		model.put("borrowFormData", new BookBorrowFormData());
+		model.put(BORROW_FORM_DATA, new BookBorrowFormData());
 	}
 
 	@Transactional
 	@RequestMapping(method = RequestMethod.POST)
-	public String processSubmit(@ModelAttribute("borrowFormData") @Valid BookBorrowFormData borrowFormData,
+	public String processSubmit(@ModelAttribute(BORROW_FORM_DATA) @Valid BookBorrowFormData borrowFormData,
 								BindingResult result) {
 		if (result.hasErrors()) {
-			return "borrow";
+			return BORROW;
 		}
 		Book book = bookService.findBookByIsbn(borrowFormData.getIsbn());
 		if (book == null) {
 			result.rejectValue("isbn", "notBorrowable");
-			return "borrow";
+			return BORROW;
 		}
 		try {
 			bookService.borrowBook(book, borrowFormData.getEmail());
@@ -61,11 +67,11 @@ public class BorrowBookController {
 			result.rejectValue("isbn", "internalError");
 			return "borrowings";
 		}
-		return "home";
+		return HOME;
 	}
 
 	@ExceptionHandler(Exception.class)
 	public String handleErrors(Exception ex, HttpServletRequest request) {
-		return "home";
+		return HOME;
 	}
 }
