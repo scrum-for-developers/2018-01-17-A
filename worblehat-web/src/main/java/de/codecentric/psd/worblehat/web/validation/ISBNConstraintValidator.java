@@ -10,6 +10,7 @@ public class ISBNConstraintValidator implements ConstraintValidator<ISBN, String
 
 	@Override
 	public void initialize(ISBN constraintAnnotation) {
+		//Nothing to do here, because we need no initialization
 	}
 
 	@Override
