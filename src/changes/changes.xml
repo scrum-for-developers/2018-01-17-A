@@ -72,6 +72,9 @@
             <action dev="Luke" type="update">
                 Datum auf Maske der ausgeliehenen Buecher in korrekter schreibweise.
             </action>
+			<action dev="Michael" type="update">
+                Ui wurde verbessert.
+            </action>
 		</release>
 	</body>
 </document>
