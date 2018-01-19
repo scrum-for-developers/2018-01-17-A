@@ -1,9 +1,16 @@
 package de.codecentric.psd.worblehat.web.controller;
 
-import de.codecentric.psd.worblehat.domain.Book;
-import de.codecentric.psd.worblehat.domain.BookAlreadyBorrowedException;
-import de.codecentric.psd.worblehat.domain.BookService;
-import de.codecentric.psd.worblehat.web.formdata.BookBorrowFormData;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.nullValue;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.HashMap;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -12,13 +19,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.MapBindingResult;
 import org.springframework.validation.ObjectError;
 
-import java.util.HashMap;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.nullValue;
-import static org.mockito.Mockito.*;
+import de.codecentric.psd.worblehat.domain.Book;
+import de.codecentric.psd.worblehat.domain.BookAlreadyBorrowedException;
+import de.codecentric.psd.worblehat.domain.BookService;
+import de.codecentric.psd.worblehat.web.formdata.BookBorrowFormData;
 
 public class BorrowBookControllerTest {
 
@@ -80,7 +84,7 @@ public class BorrowBookControllerTest {
         String navigateTo = borrowBookController.processSubmit(bookBorrowFormData, bindingResult);
 
         assertThat(bindingResult.hasFieldErrors("isbn"), is(true));
-        assertThat(navigateTo, is("borrow"));
+        assertThat(navigateTo, is("borrowings"));
     }
 
     @Test
